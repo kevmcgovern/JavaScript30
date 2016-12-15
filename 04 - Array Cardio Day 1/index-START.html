@@ -27,28 +27,72 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    let filterArray = inventors.filter(function(object){
+      if (object.year >= 1500 && object.year < 1600 ) return object;
+    });
 
     // Array.prototype.map()
     // 2. Give us an array of the inventory first and last names
+    let mapArray = inventors.map(function(object){
+      return object.first + ' ' + object.last;
+    });
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    let sorted = inventors.sort(function(a, b){
+      return a.year - b.year;
+    });
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
+    let totalYears = inventors.reduce(function(accumulator, current){
+      return accumulator + (current.passed - current.year);
+    }, 0);
+
+    // Another way to do below - helper method
+    // function parseYears(a, b){
+          // return (a += (b.passed - b.year));
+    // }
+    // var years = inventors.reduce(parseYears, 0);
 
     // 5. Sort the inventors by years lived
+    let longestLived = inventors.sort(function(a, b){
+      return (b.passed - b.year) - (a.passed - a.year);
+    });
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-
+    let mainDiv = document.querySelector('.mw-category');
+    let links = Array.from(mainDiv.querySelectorAll('a'));
+    let streetNames = links.map(function(link){
+      return link.textContent;
+    });
+    let deNames = streetNames.filter(function(street){
+      return street.include('de');
+    });
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    let sortedNames = people.sort(function(a, b){
+      let [aLast, aFirst] = a.split(', ');
+      let [bLast, bFirst] = b.split(', ');
+      return aLast > bLast ? 1 : -1;
+      // Ternary operator: if the expression to the left of "?" is true, then the value to the left of the colon is returned. If the expression is false, then the value to the right is returned. 
+      // In this case, being 'greater than' will place that element higher up (lower indexed)
+      // Needed to use the Finished document as a guide here
+    });
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    let v = data.reduce(function(memo, vehicle){
+      if (!memo[vehicle]){
+        // JSLint should pick up mid expression semicolons and ask "Are you sure this goes here?"
+        memo[vehicle] = 0;
+      }
+      memo[vehicle] ++;
+      return memo;
+     } , {});
 
   </script>
 </body>
